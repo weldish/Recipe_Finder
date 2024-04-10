@@ -4,6 +4,7 @@ import Header from './Header'
 import SearchForm from './SearchForm';
 import RecipeList from './RecipeList';
 import RecipeDetails from './RecipeDetails';
+import ShoppingList from './ShoppingList';
 import './App.css'; 
 
 
@@ -16,6 +17,7 @@ function App() {
   const [ingredients, setIngredients] = useState('');
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [shoppingList, setShoppingList] = useState([]);
 
 
   const fetchRecipes = async (e) => {
@@ -30,12 +32,38 @@ function App() {
   };
 
 
+  // Function to add ingredients to the shopping list
+  const addToShoppingList = (recipe) => {
+    const newIngredients = recipe.usedIngredients.concat(recipe.missedIngredients);
+    const uniqueIngredients = new Set([...shoppingList, ...newIngredients.map(ing => ing.original)]);
+    setShoppingList([...uniqueIngredients]);;
+  };
+
+
+
   return (
-    <div className="app">
+    <div>
       <Header />
       <SearchForm ingredients={ingredients} setIngredients={setIngredients} fetchRecipes={fetchRecipes} />
-      <RecipeList recipes={recipes} setSelectedRecipe={setSelectedRecipe} />
-      {selectedRecipe && <RecipeDetails recipe={selectedRecipe} />}
+      <div className="main-container">
+        <div className="recipe-list-container">
+          <RecipeList recipes={recipes} setSelectedRecipe={setSelectedRecipe} />
+        </div>
+      
+        {selectedRecipe && (
+        <div className="recipe-details-container">
+          <RecipeDetails recipe={selectedRecipe} addToShoppingList = {addToShoppingList}/>
+        </div>
+      )}
+
+        {shoppingList.length > 0 && (
+        <div className="shopping-list-container">
+          <ShoppingList shoppingList={shoppingList} setShoppingList={setShoppingList} />
+        </div>
+      )}
+
+
+    </div>
     </div>
   );
 }
