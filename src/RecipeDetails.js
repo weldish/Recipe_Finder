@@ -1,26 +1,27 @@
 import React from 'react';
 
-function RecipeDetails({ recipe }) {
+function RecipeDetails({ recipe, addToShoppingList }) {
   return (
-    <div>
-      <h2>{recipe.title}</h2>
-      <img src={recipe.image} alt={recipe.title} />
-      <h3>Ingredients</h3>
-      <ul>
+    <div className="recipe-details">
+      <h2 className="recipe-title"> {recipe.title} </h2>
+      <img className="recipe-image" src={recipe.image} alt={recipe.title} />
+      <h3 className="ingredients-header">Ingredients</h3>
+      <ul className="ingredients-list">
         {recipe.usedIngredients.map((ingredient) => (
           <li key={ingredient.id}>
             {ingredient.original}
-            <img src={ingredient.image} alt={ingredient.name} style={{ width: '50px' }} />
+            <img src={ingredient.image} alt={ingredient.name}  />
           </li>
         ))}
         {recipe.missedIngredients.map((ingredient) => (
-          <li key={ingredient.id} style={{listStyleType: "none"}}>
+          <li key={ingredient.id} >
             {ingredient.original}
-            <img src={ingredient.image} alt={ingredient.name} style={{ width: '50px' }} />
+            <img src={ingredient.image} alt={ingredient.name}  />
           </li>
         ))}
       </ul>
-      <p><strong>Note:</strong> This recipe includes ingredients you have and some that you might miss. Missed ingredients are also listed.</p>
+      <p><strong>Note:</strong> This recipe includes ingredients you have and some that you might miss.</p>
+      <button onClick={() => addToShoppingList(recipe)}>Add Ingredients to Shopping List</button>
     </div>
   );
 }
