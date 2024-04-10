@@ -1,10 +1,14 @@
-
-import './App.css';
 import React, { useState } from 'react';
 import axios from 'axios';
+import Header from './Header'
+import SearchForm from './SearchForm';
+import RecipeList from './RecipeList';
+import './App.css'; 
 
 
 
+// It handles state and the API request.
+// it is also the global parent
 
 function App() {
 
@@ -24,25 +28,9 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Recipe Finder</h1>
-      <form onSubmit={fetchRecipes}>
-        <input
-          type="text"
-          value={ingredients}
-          onChange={(e) => setIngredients(e.target.value)}
-          placeholder="Enter ingredients (comma separated)"
-          />
-        <button type="submit">Find Recipes</button>
-      </form>
-      <div>
-        {recipes.map((recipe) => (
-            <div key={recipe.id}>
-              <h2>{recipe.title}</h2>
-              <img src={recipe.image} alt={recipe.title} style={{ width: '100px' }} />
-          </div>
-        ))}
-      </div>
-
+      <Header />
+      <SearchForm ingredients={ingredients} setIngredients={setIngredients} fetchRecipes={fetchRecipes} />
+      <RecipeList recipes={recipes} />
     </div>
   );
 }
